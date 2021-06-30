@@ -1,0 +1,179 @@
+<style>
+    body {
+
+background-image: url("k.jpg");
+background-repeat: no-repeat;
+background-size: auto;
+}
+    #userInput {
+    margin-top: 20px;
+    padding: 10px;
+
+  }
+ #wel{
+   color: white ;
+   text-align: center;
+   font-size: larger;
+
+ }
+  #in {
+    background-color: transparent;
+    border: 0ch;
+  }
+  
+#textBox
+{
+background-color: transparent;
+margin: auto;
+width: 50%;
+#border: 3px solid green;
+padding: 10px;
+color: white;
+
+}
+
+
+  #out {
+      padding-left: 10px;
+      margin-top: 5px;
+      font-size: 18px;
+       color:white;
+       text-align: justify; 
+        /*border: 3px solid yellow;*/
+         margin: auto;
+         height: 100px;
+      
+  }
+
+  #out ul {
+   list-style : none;
+  }
+  
+
+  #out  li,
+   th,
+     td{
+     padding-right : 45px;
+padding-left : 25px;
+padding-top : 7px;
+ text-align : left;
+  border-width :10px;
+   border-style: solid;
+   border-color: white;
+
+</style>
+
+<script>
+
+    function command(e) {
+
+        if (e.keyCode == 13) {
+
+        //  document.getElementById('out').innerHTML = "";
+	
+  var i = document.getElementById("textBox").value
+  var idd = "0"
+  var final = ""
+  
+if (((i.includes("deployments")) || (i.includes("deploy")) || (i.includes("deployment"))) && ((i.includes("create")) || (i.includes("generate")) || (i.includes("build")))) {
+    var image = prompt("Enter image name : ")
+	var deployment_name = prompt("Enter Deployment name: ")
+	var idd = "1"
+	var final = idd + " " + image + " " + deployment_name 
+	
+    }
+
+  else if (((i.includes("pods")) || (i.includes("pod"))) && ((i.includes("create")) || (i.includes("generate")) || (i.includes("build")))) {
+	var image = prompt("Enter image name: ")
+	var pod_name = prompt("Enter pod name: ")
+	var idd = "2"
+	var final = idd + " " + image + " " + pod_name
+	
+	}
+
+  else if (((i.includes("pods")) || (i.includes("pod"))) && ((i.includes("delete")) || (i.includes("remove")) || (i.includes("detach")))) {
+	var pod_name = prompt("Enter pod name: ")
+	var idd = "3"
+	var final = idd + " " + pod_name
+	
+	}
+
+  else if (((i.includes("deployments")) || (i.includes("deploy")) || (i.includes("deployment"))) && ((i.includes("delete")) || (i.includes("remove")) || (i.includes("detach")))) {
+	var deployment_name = prompt("Enter Deployment name: ")
+	var idd = "4"
+	var final = idd + " " + deployment_name
+	
+    }
+
+  else if (((i.includes("deployments")) || (i.includes("deploy")) || (i.includes("deployment"))) && ((i.includes("expose"))  || (i.includes("display")))) {
+	var deployment_name = prompt("Enter Deployment name: ")
+	var port_no = prompt("Enter port no on which you want yo export your deployment: ")
+	var expose_type = prompt(" 1. NodePort \n 2. ClusterIP \n 3.External \n Enter the type which you want to export ")
+	var idd = "5"
+	var final = idd + " " + deployment_name + " " + port_no + " " + expose_type
+	
+    }
+
+  else if (((i.includes("deployments")) || (i.includes("deploy")) || (i.includes("deployment"))) && ((i.includes("scale")) || (i.includes("increase")) || (i.includes("decrease")) || (i.includes("scale up")) || (i.includes("scale down")))) 
+  {
+	var deployment_name = prompt( "Enter Deployment name: ")
+	var replica = prompt("Enter no. of replicas you need : ")
+	var idd = "6"
+	var final = idd + " " + deployment_name + " " + replica
+
+    }
+
+  else if (((i.includes("pods")) || (i.includes("pod"))) && ((i.includes("show")) || (i.includes("get")) || (i.includes("list")))) {
+	var idd = "7"
+	var final = idd 
+	
+	}
+
+  else if (((i.includes("deployments"))|| (i.includes("deployment")) || (i.includes("deploy"))) && ((i.includes("show")) || (i.includes("get")) || (i.includes("list")))) {
+	var idd = "8"
+	var final = idd 
+	
+	}
+  else if (((i.includes("services")) || (i.includes("services")) || (i.includes("svc"))) && ((i.includes("show")) || (i.includes("get")) || (i.includes("list")))) {
+	var idd = "9"
+	var final = idd 
+	
+	}
+
+  else if (((i.includes("all")) || (i.includes("everything"))) && ((i.includes("delete")) || (i.includes("remove")) || (i.includes("destroy")))) {
+	var idd = "10"
+	var final = idd 
+	
+}
+
+  else {
+	var idd = "404"
+	var final = idd 
+	
+  }
+
+
+     
+document.getElementById('out').innerHTML = "";
+var req = new XMLHttpRequest();
+req.open("GET", "http://10.0.2.15/cgi-bin/kub.py?x=" + idd, false);
+req.send();
+var output = req.responseText;
+document.getElementById("out").innerHTML = output;
+
+
+document.getElementById('textBox').value = "";
+}
+    }
+
+</script>
+<div id="wel">KUBERNETES</div>
+<div id="wel">Lets talk to our Kubernetes tool..</div>
+<div id="userInput">
+    <input type="text" id="textBox" onkeypress="command(event)" placeholder="Enter your command" size="40" autofocus>
+  </div>
+
+  <pre>
+    <div id="out"> </div>
+    </pre>
+
